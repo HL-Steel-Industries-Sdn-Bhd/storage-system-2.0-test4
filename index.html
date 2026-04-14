@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Section Material Request · ISO 9001</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+    body {
+      background: #f2f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 12px 8px;
+      margin: 0;
+    }
+    .form-container {
+      max-width: 480px;
+      width: 100%;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+      padding: 18px 14px 24px;
+      border: 1px solid #e9ecf0;
+      overflow-x: hidden;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .row-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      object-fit: contain;
+      background: #fff;
+    }
+    .title-main {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1e2f4e;
+      letter-spacing: -0.01em;
+    }
+
+    .field-pair {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1 1 40%;
+    }
+    .field-pair label {
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+    .field-pair input, .field-pair select {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1.5px solid #d0d7de;
+      border-radius: 14px;
+      font-size: 1rem;
+      background: white;
+      transition: border 0.15s;
+      min-width: 0;
+    }
+
+    .submit-btn {
+      background: #a0b8cc;
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.2s;
+      margin-left: auto;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    .submit-btn.active {
+      background: #0a2540;
+      pointer-events: auto;
+      opacity: 1;
+      box-shadow: 0 4px 8px rgba(10,37,64,0.2);
+    }
+
+    .error-bar {
+      min-height: 42px;
+      background: #fef1f0;
+      border-radius: 16px;
+      padding: 8px 16px;
+      margin: 8px 0 12px;
+      color: #bc1c1c;
+      font-weight: 500;
+      font-size: 0.9rem;
+      border-left: 6px solid #bc1c1c;
+      word-break: break-word;
+    }
+
+    .section-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 18px;
+      margin-top: 12px;
+      table-layout: fixed;
+    }
+    .section-table th {
+      background: #1e2f4e;
+      color: white;
+      font-weight: 600;
+      font-size: 0.7rem;
+      padding: 8px 2px;
+      text-align: center;
+      border-right: 1px solid #3a4c66;
+      word-break: break-word;
+    }
+    .section-table td {
+      padding: 6px 2px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: center;
+      vertical-align: middle;
+      background: #fafbfc;
+    }
+    .section-table select, .section-table input {
+      width: 100%;
+      padding: 8px 2px;
+      border-radius: 12px;
+      border: 1.5px solid #cfdde9;
+      background: white;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+    .csdim-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+    .csdim-wrapper select {
+      width: 45%;
+      padding: 6px 0;
+    }
+    .x-symbol {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #1e2f4e;
+    }
+
+    .calc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      background: #f9fafc;
+      border-radius: 18px;
+      table-layout: fixed;
+    }
+    .calc-table th {
+      background: #3a5470;
+      color: white;
+      padding: 8px 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: center;
+      border: 1px solid #4f6a88;
+      word-break: break-word;
+    }
+    .calc-table td {
+      padding: 8px 4px;
+      background: white;
+      border: 1px solid #d9e1ec;
+      text-align: center;
+    }
+    .calc-table input {
+      width: 100%;
+      padding: 10px 4px;
+      border-radius: 14px;
+      border: 1.5px solid #cfdde9;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .info-note {
+      font-size: 0.7rem;
+      color: #556c83;
+      margin-top: 6px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+<div class="form-container">
+  <!-- 第一排：logo + 标题 -->
+  <div class="row row-logo">
+    <img class="logo-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a2540' rx='20'/%3E%3Ctext x='22' y='68' font-family='Arial' font-weight='bold' font-size='46' fill='white'%3ESR%3C/text%3E%3C/svg%3E" alt="logo">
+    <span class="title-main">Section Request Form</span>
+  </div>
+
+  <!-- 第二/三排 -->
+  <div class="row">
+    <div class="field-pair"><label>SO No.</label><input type="text" id="soNo" placeholder="SO-123"></div>
+    <div class="field-pair"><label>Item No.</label><input type="text" id="itemNo" placeholder="IT-001"></div>
+  </div>
+  <div class="row">
+    <div class="field-pair"><label>Customer</label><input type="text" id="customerName" placeholder="Name"></div>
+    <div class="field-pair"><label>Delivery</label><input type="date" id="deliveryDate" value="2026-04-20"></div>
+  </div>
+
+  <!-- 第四排 -->
+  <div class="row">
+    <div class="field-pair"><label>Requestor</label><input type="text" id="requestor" placeholder="Worker ID"></div>
+    <button class="submit-btn" id="submitMainBtn" disabled>Submit</button>
+  </div>
+
+  <!-- 第五排 -->
+  <div class="error-bar" id="errorBar"></div>
+
+  <!-- Section Type 1 表格 (两行) -->
+  <div style="font-weight:700; margin: 8px 0 4px; color:#1e2f4e;">📐 Section Type 1</div>
+  <table class="section-table">
+    <thead><tr><th>Shape</th><th>Grade</th><th>Surface</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><select id="shapeSelect"><option value="">-</option><option>Square</option><option>Round</option><option>I-Beam</option></select></td>
+        <td><select id="gradeSelect"><option value="">-</option><option>S275</option><option>S355</option><option>304 SS</option></select></td>
+        <td><select id="surfaceSelect"><option value="">-</option><option>Mill</option><option>Galvanized</option><option>Primed</option></select></td>
+      </tr>
+    </tbody>
+    <thead><tr><th>C/S Dim</th><th>Thickness</th><th>Current Stock</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="csdim-wrapper">
+            <select id="csDimLeft"><option value="">-</option><option>50</option><option>75</option><option>100</option><option>150</option></select>
+            <span class="x-symbol">x</span>
+            <select id="csDimRight"><option value="">-</option><option>50</option><option>75</option><option>100</option><option>150</option></select>
+          </div>
+        </td>
+        <td><select id="thicknessSelect"><option value="">-</option><option>3.0</option><option>5.0</option><option>8.0</option><option>10.0</option></select></td>
+        <td><input type="text" id="currentStock" placeholder="pcs" readonly style="background:#f4f7fb;"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 第二个表格 -->
+  <table class="calc-table">
+    <thead>
+      <tr><th colspan="2">Based on Drawing</th><th rowspan="2">Actual Full Length<br><span style="font-weight:400;">(Qty of 6m sections)</span></th></tr>
+      <tr><th>Piece Length (mm)</th><th>x Piece Qty</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="number" id="pieceLength" step="0.1" min="0" placeholder="850"></td>
+        <td><input type="number" id="pieceQty" step="1" min="1" placeholder="8"></td>
+        <td><input type="number" id="actualFullLengthQty" step="1" min="0" placeholder="1"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="info-note">1 section = 6000 mm · 余料检查</div>
+</div>
+
+<!-- 废料确认弹窗 (Scrap Material Confirmation Modal) -->
+<div id="scrapModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 30px; border-radius: 15px; text-align: center; max-width: 500px; width: 90%; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);">
+        <h3 style="margin-bottom: 20px; color: #2c3e50; font-size: 24px;">⚠️ Excess Material Detected</h3>
+        <p style="margin-bottom: 15px; color: #555; font-size: 16px; line-height: 1.5;">
+            The requested length exceeds the available full length sections provided.
+        </p>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+            <div><strong>Total Requested:</strong> <span id="modalTotalReq" style="color: #e74c3c; font-weight: bold;"></span> mm</div>
+            <div><strong>Total Available:</strong> <span id="modalTotalAvail" style="color: #e74c3c; font-weight: bold;"></span> mm</div>
+            <div><strong>Shortage:</strong> <span id="modalShortage" style="color: #e74c3c; font-weight: bold;"></span> mm</div>
+        </div>
+        <p style="margin-bottom: 25px; color: #e74c3c; font-weight: bold; font-size: 14px;">
+            <span style="font-size: 20px; margin-right: 5px;">ⓘ</span>
+            Did you use leftover scrap material to fulfill this request?
+        </p>
+        <p style="margin-bottom: 25px; color: #555; font-size: 14px;">
+            Select "Yes" to confirm scrap usage and submit. Select "No" to adjust quantities.
+        </p>
+        <div style="display: flex; gap: 15px; justify-content: center;">
+            <button onclick="window.confirmScrapUsage(true)" 
+                    style="padding: 12px 40px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.3s ease; font-size: 16px;">
+                Yes, Used Scrap
+            </button>
+            <button onclick="window.confirmScrapUsage(false)" 
+                    style="padding: 12px 40px; background: #e74c3c; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.3s ease; font-size: 16px;">
+                No, Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<iframe name="hiddenFrame" id="hiddenFrame" style="display:none;"></iframe>
+
+<script>
+  (function(){
+    "use strict";
+
+    // 替换为您的 GAS Web App URL
+    const GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw7w0yDFP2ETbzOrm2Cm1_KZFbJ66XYj-jlWqzXaqST7TXKeolBf1jqXg-bYZp5Tg8/exec';
+
+    const soNo = document.getElementById('soNo');
+    const itemNo = document.getElementById('itemNo');
+    const customerName = document.getElementById('customerName');
+    const deliveryDate = document.getElementById('deliveryDate');
+    const requestor = document.getElementById('requestor');
+    const submitBtn = document.getElementById('submitMainBtn');
+    const errorBar = document.getElementById('errorBar');
+
+    const shapeSelect = document.getElementById('shapeSelect');
+    const gradeSelect = document.getElementById('gradeSelect');
+    const surfaceSelect = document.getElementById('surfaceSelect');
+    const csDimLeft = document.getElementById('csDimLeft');
+    const csDimRight = document.getElementById('csDimRight');
+    const thicknessSelect = document.getElementById('thicknessSelect');
+    const currentStock = document.getElementById('currentStock');
+
+    const pieceLength = document.getElementById('pieceLength');
+    const pieceQty = document.getElementById('pieceQty');
+    const actualFullLengthQty = document.getElementById('actualFullLengthQty');
+
+    const scrapModal = document.getElementById('scrapModal');
+    const modalTotalReq = document.getElementById('modalTotalReq');
+    const modalTotalAvail = document.getElementById('modalTotalAvail');
+    const modalShortage = document.getElementById('modalShortage');
+
+    const SECTION_LEN = 6000;
+    let pendingSubmitData = null; // 暂存待提交数据
+
+    function updateStockMock() {
+      if(csDimLeft.value && csDimRight.value) currentStock.value = '24 pcs';
+      else currentStock.value = '';
+    }
+    [csDimLeft, csDimRight].forEach(el => el.addEventListener('change', updateStockMock));
+
+    function isBaseFormComplete() {
+      if(!soNo.value.trim() || !itemNo.value.trim() || !customerName.value.trim() || !deliveryDate.value || !requestor.value.trim()) return false;
+      if(!shapeSelect.value || !gradeSelect.value || !surfaceSelect.value || !csDimLeft.value || !csDimRight.value || !thicknessSelect.value) return false;
+      const pl = parseFloat(pieceLength.value), pq = parseFloat(pieceQty.value), aq = parseFloat(actualFullLengthQty.value);
+      if(isNaN(pl) || pl <= 0) return false;
+      if(isNaN(pq) || pq <= 0 || !Number.isInteger(pq)) return false;
+      if(isNaN(aq) || aq < 0) return false;
+      return true;
+    }
+
+    // 校验逻辑：返回 { valid, reason, shortage }
+    function validateLengthLogic() {
+      const pl = parseFloat(pieceLength.value) || 0;
+      const pq = parseFloat(pieceQty.value) || 0;
+      const sectionQty = parseFloat(actualFullLengthQty.value) || 0;
+      const totalNeeded = pl * pq;
+      const totalAvailable = sectionQty * SECTION_LEN;
+      const remainder = totalAvailable - totalNeeded;
+
+      if (totalNeeded > totalAvailable) {
+        return { 
+          valid: false, 
+          reason: `Need ${totalNeeded} mm, but ${sectionQty} section(s) only provide ${totalAvailable} mm.`,
+          shortage: totalNeeded - totalAvailable,
+          totalNeeded, totalAvailable
+        };
+      }
+      if (remainder >= SECTION_LEN) {
+        return {
+          valid: false,
+          reason: `Remainder ${remainder.toFixed(1)} mm ≥ 6000 mm. Excess waste?`,
+          needConfirm: true,
+          shortage: 0,
+          totalNeeded, totalAvailable
+        };
+      }
+      return { valid: true, reason: '', totalNeeded, totalAvailable, shortage: 0 };
+    }
+
+    function refreshFormState() {
+      if (!isBaseFormComplete()) {
+        submitBtn.classList.remove('active');
+        submitBtn.disabled = true;
+        errorBar.textContent = '⚠️ Please fill all required fields.';
+        return;
+      }
+      const logic = validateLengthLogic();
+      if (logic.valid) {
+        submitBtn.classList.add('active');
+        submitBtn.disabled = false;
+        errorBar.textContent = '';
+      } else {
+        submitBtn.classList.remove('active');
+        submitBtn.disabled = true;
+        if (logic.needConfirm) {
+          errorBar.textContent = `❗ ${logic.reason}`;
+        } else if (logic.shortage > 0) {
+          errorBar.textContent = `❌ ${logic.reason}`;
+        } else {
+          errorBar.textContent = `❌ ${logic.reason}`;
+        }
+      }
+    }
+
+    function collectFormData() {
+      const pl = parseFloat(pieceLength.value)||0, pq = parseFloat(pieceQty.value)||0, aq = parseFloat(actualFullLengthQty.value)||0;
+      const totalReq = pl * pq;
+      const totalAvail = aq * SECTION_LEN;
+      return {
+        timestamp: new Date().toISOString(),
+        soNo: soNo.value.trim(), itemNo: itemNo.value.trim(), customerName: customerName.value.trim(),
+        deliveryDate: deliveryDate.value, requestor: requestor.value.trim(),
+        shape: shapeSelect.value, grade: gradeSelect.value, surface: surfaceSelect.value,
+        csDim: csDimLeft.value + 'x' + csDimRight.value, thickness: thicknessSelect.value, currentStock: currentStock.value,
+        pieceLength: pl, pieceQty: pq, actualFullLengthQty: aq,
+        totalRequested: totalReq.toFixed(2), totalAvailable: totalAvail.toFixed(2), remainder: (totalAvail - totalReq).toFixed(2)
+      };
+    }
+
+    // 执行实际提交
+    function performSubmit(data) {
+      submitBtn.textContent = '...'; submitBtn.disabled = true;
+      errorBar.textContent = '⏳ Submitting...';
+      const form = document.createElement('form');
+      form.method = 'POST'; form.action = GAS_WEBAPP_URL; form.target = 'hiddenFrame';
+      Object.keys(data).forEach(k => { const i = document.createElement('input'); i.type='hidden'; i.name=k; i.value=data[k]; form.appendChild(i); });
+      document.body.appendChild(form);
+      form.submit();
+      setTimeout(() => { document.body.removeChild(form); }, 1000);
+      errorBar.textContent = '✅ Submitted with scrap exception.';
+      setTimeout(() => { refreshFormState(); }, 500);
+    }
+
+    // 全局确认回调
+    window.confirmScrapUsage = function(isYes) {
+      scrapModal.style.display = 'none';
+      if (isYes && pendingSubmitData) {
+        performSubmit(pendingSubmitData);
+        pendingSubmitData = null;
+      } else {
+        errorBar.textContent = '❌ Please adjust piece length / section quantity.';
+        refreshFormState();
+        pendingSubmitData = null;
+      }
+    };
+
+    function showScrapModal(logic) {
+      modalTotalReq.textContent = logic.totalNeeded.toFixed(1);
+      modalTotalAvail.textContent = logic.totalAvailable.toFixed(1);
+      modalShortage.textContent = logic.shortage.toFixed(1);
+      scrapModal.style.display = 'flex';
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      if (!submitBtn.classList.contains('active')) return;
+
+      const logic = validateLengthLogic();
+      
+      // 情况1：需求超过可用长度 (shortage > 0) → 弹窗询问是否使用废料
+      if (!logic.valid && logic.shortage > 0) {
+        pendingSubmitData = collectFormData();
+        showScrapModal(logic);
+        return;
+      }
+
+      // 情况2：余料过大询问 (之前已处理)
+      if (!logic.valid && logic.needConfirm) {
+        if (confirm(logic.confirmMsg)) {
+          performSubmit(collectFormData());
+        } else {
+          errorBar.textContent = `❌ Please adjust values.`;
+        }
+        return;
+      }
+
+      // 情况3：正常提交
+      if (logic.valid) {
+        performSubmit(collectFormData());
+      } else {
+        alert('Cannot submit: ' + logic.reason);
+      }
+    }
+
+    // 点击模态背景关闭
+    scrapModal.addEventListener('click', function(e) {
+      if (e.target === scrapModal) {
+        scrapModal.style.display = 'none';
+        pendingSubmitData = null;
+      }
+    });
+
+    const inputs = [soNo,itemNo,customerName,deliveryDate,requestor,shapeSelect,gradeSelect,surfaceSelect,csDimLeft,csDimRight,thicknessSelect,pieceLength,pieceQty,actualFullLengthQty];
+    inputs.forEach(el => el.addEventListener('input', refreshFormState));
+    inputs.forEach(el => el.addEventListener('change', refreshFormState));
+    window.addEventListener('load', () => { if(!deliveryDate.value) deliveryDate.value = '2026-04-20'; updateStockMock(); refreshFormState(); });
+    submitBtn.addEventListener('click', handleSubmit);
+  })();
+</script>
+</body>
+</html>
